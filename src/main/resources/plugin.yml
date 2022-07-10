@@ -1,0 +1,13 @@
+name: Vouchers
+version: '${project.version}'
+main: net.aerh.vouchers.VoucherPlugin
+api-version: 1.19
+authors: [ Aerh ]
+description: Create physical items that players can redeem
+commands:
+  givevoucher:
+    description: "Give a voucher to a player"
+    permission: "vouchers.givevoucher"
+  listvouchers:
+    description: "List all vouchers"
+    permission: "vouchers.listvouchers"
