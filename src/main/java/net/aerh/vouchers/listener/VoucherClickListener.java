@@ -19,10 +19,16 @@ public class VoucherClickListener implements Listener {
         Player player = event.getPlayer();
         Action action = event.getAction();
         ItemStack itemStack = event.getItem();
-        if (itemStack == null || itemStack.getItemMeta() == null || action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) return;
+
+        if (itemStack == null || itemStack.getItemMeta() == null || action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
 
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
-        if (!container.has(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING)) return;
+
+        if (!container.has(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING)) {
+            return;
+        }
 
         String voucherId = container.get(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING);
         UseStatus useStatus = VoucherManager.get().useVoucher(player, voucherId);

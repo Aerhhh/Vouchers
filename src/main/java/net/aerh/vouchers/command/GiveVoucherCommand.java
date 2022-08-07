@@ -43,12 +43,16 @@ public class GiveVoucherCommand implements CommandExecutor {
         }
 
         String amountString = "voucher ";
-        if (amount > 1) amountString = amount + " of voucher ";
-        sender.sendMessage(ChatColor.GREEN + "Giving " + amountString + ChatColor.AQUA + voucherName + ChatColor.GREEN +
-                " to " + ChatColor.YELLOW + targetName.getName() + ChatColor.GREEN + "!");
+        if (amount > 1) {
+            amountString = amount + " of voucher ";
+        }
+
+        sender.sendMessage(ChatColor.GREEN + "Giving " + amountString + ChatColor.AQUA + voucherName + ChatColor.GREEN + " to " + ChatColor.YELLOW + targetName.getName() + ChatColor.GREEN + "!");
+
         ItemStack voucher = VoucherManager.get().getVoucher(voucherName).getItemStack();
         voucher.setAmount(amount);
         targetName.getInventory().addItem(voucher);
+
         return false;
     }
 }

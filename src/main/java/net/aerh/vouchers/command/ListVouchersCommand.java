@@ -21,6 +21,7 @@ public class ListVouchersCommand implements CommandExecutor {
         }
 
         sender.sendMessage(ChatColor.GREEN + "Vouchers: " + ChatColor.AQUA + String.join(ChatColor.GREEN + ", " + ChatColor.AQUA, voucherNames));
+
         return false;
     }
 }

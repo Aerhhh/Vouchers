@@ -44,15 +44,23 @@ public class VoucherData {
         if (itemStack == null) {
             itemStack = new ItemStack(Material.PAPER);
             ItemMeta itemMeta = itemStack.getItemMeta();
-            if (itemMeta == null) return null;
+
+            if (itemMeta == null) {
+                return null;
+            }
+
+            PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+
+            container.set(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING, name);
             itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', itemData.getDisplayName()));
+
             List<String> translatedLore = new ArrayList<>();
+
             for (String line : itemData.getLore()) {
                 translatedLore.add(ChatColor.translateAlternateColorCodes('&', line));
             }
+
             itemMeta.setLore(translatedLore);
-            PersistentDataContainer container = itemMeta.getPersistentDataContainer();
-            container.set(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING, name);
             itemStack.setItemMeta(itemMeta);
         }
         return itemStack;
