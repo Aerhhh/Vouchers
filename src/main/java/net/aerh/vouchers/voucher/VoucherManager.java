@@ -13,7 +13,6 @@ public class VoucherManager {
     private static VoucherManager instance;
     private final List<VoucherData> data = new ArrayList<>();
 
-
     public VoucherManager() {
     }
 
@@ -38,19 +37,20 @@ public class VoucherManager {
         return null;
     }
 
-    public UseStatus useVoucher(Player player, String voucherId) {
+    public VoucherRedeemState useVoucher(Player player, String voucherId) {
         VoucherData voucher = getVoucher(voucherId);
         if (voucher == null) {
             VoucherPlugin.get().getLogger().warning(player.getName() + " tried to redeem voucher " + voucherId + " but it doesn't exist!");
-            return UseStatus.VOUCHER_NOT_FOUND;
+            return VoucherRedeemState.VOUCHER_NOT_FOUND;
         }
 
         if (voucher.getCommand() == null) {
             VoucherPlugin.get().getLogger().warning(player.getName() + " tried to redeem voucher " + voucherId + " but it has no command!");
-            return UseStatus.NO_COMMAND;
+            return VoucherRedeemState.NO_COMMAND;
         }
+
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), voucher.getCommand().replace("%player%", player.getName()));
-        return UseStatus.SUCCESS;
+        return VoucherRedeemState.SUCCESS;
     }
 
     public List<VoucherData> getVouchers() {

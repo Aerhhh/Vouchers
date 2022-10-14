@@ -47,12 +47,19 @@ public class GiveVoucherCommand implements CommandExecutor {
             amountString = amount + " of voucher ";
         }
 
-        sender.sendMessage(ChatColor.GREEN + "Giving " + amountString + ChatColor.AQUA + voucherName + ChatColor.GREEN + " to " + ChatColor.YELLOW + targetName.getName() + ChatColor.GREEN + "!");
+        if (targetName.getInventory().firstEmpty() == -1) {
+            sender.sendMessage(ChatColor.RED + "That player's inventory is full!");
+            return false;
+        }
 
-        ItemStack voucher = VoucherManager.get().getVoucher(voucherName).getItemStack();
-        voucher.setAmount(amount);
+        ItemStack voucher = VoucherManager.get().getVoucher(voucherName).getItemStack(amount);
+        if (voucher == null) {
+            sender.sendMessage(ChatColor.RED + "A voucher with that name cannot be found!");
+            return false;
+        }
+
         targetName.getInventory().addItem(voucher);
-
+        sender.sendMessage(ChatColor.GREEN + "Giving " + amountString + ChatColor.AQUA + voucherName + ChatColor.GREEN + " to " + ChatColor.YELLOW + targetName.getName() + ChatColor.GREEN + "!");
         return false;
     }
 }

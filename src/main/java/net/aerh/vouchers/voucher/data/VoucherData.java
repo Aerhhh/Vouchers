@@ -40,9 +40,9 @@ public class VoucherData {
         return command;
     }
 
-    public ItemStack getItemStack() {
+    public ItemStack getItemStack(int amount) {
         if (itemStack == null) {
-            itemStack = new ItemStack(Material.PAPER);
+            itemStack = new ItemStack(Material.PAPER, amount);
             ItemMeta itemMeta = itemStack.getItemMeta();
 
             if (itemMeta == null) {

@@ -35,19 +35,20 @@ public final class VoucherPlugin extends JavaPlugin {
      */
     private void loadVouchers() {
         getLogger().info("Loading vouchers...");
-        AtomicInteger count = new AtomicInteger();
+
         ConfigurationSection voucherSection = getConfig().getConfigurationSection("vouchers");
         if(voucherSection == null) {
             getLogger().warning("No vouchers found in config file!");
             return;
         }
+
         voucherSection.getKeys(false).forEach(key -> {
             ItemData itemData = ItemData.create(voucherSection.getString(key + ".item.display-name"), voucherSection.getStringList(key + ".item.lore"));
             VoucherData data = VoucherData.create(key, voucherSection.getString(key + ".description"), voucherSection.getString(key + ".command"), itemData);
             VoucherManager.get().addVoucher(data);
-            count.getAndIncrement();
         });
-        getLogger().info("Loaded " + count + " voucher" + (count.get() == 1 ? "" : "s") + ".");
+
+        getLogger().info("Loaded " + voucherSection.getKeys(false).size() + " voucher" + (voucherSection.getKeys(false).size() == 1 ? "" : "s") + ".");
     }
 
     public static VoucherPlugin get() {

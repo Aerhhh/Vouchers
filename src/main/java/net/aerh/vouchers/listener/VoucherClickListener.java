@@ -1,7 +1,7 @@
 package net.aerh.vouchers.listener;
 
 import net.aerh.vouchers.VoucherPlugin;
-import net.aerh.vouchers.voucher.UseStatus;
+import net.aerh.vouchers.voucher.VoucherRedeemState;
 import net.aerh.vouchers.voucher.VoucherManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,19 +25,22 @@ public class VoucherClickListener implements Listener {
         }
 
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
-
         if (!container.has(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING)) {
             return;
         }
 
         String voucherId = container.get(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING);
-        UseStatus useStatus = VoucherManager.get().useVoucher(player, voucherId);
-        if (useStatus == UseStatus.SUCCESS) {
+        if (voucherId == null) {
+            return;
+        }
+
+        VoucherRedeemState state = VoucherManager.get().useVoucher(player, voucherId);
+        if (state == VoucherRedeemState.SUCCESS) {
             deleteOneOrMore(itemStack);
         } else {
-            player.sendMessage(useStatus.getMessage());
+            player.sendMessage(state.getMessage());
             VoucherPlugin.get().getLogger().warning("An error occurred trying to redeem voucher " + voucherId + " for player " + player.getName() + ":");
-            VoucherPlugin.get().getLogger().warning(useStatus.getMessage());
+            VoucherPlugin.get().getLogger().warning(state.getMessage());
         }
     }
 
