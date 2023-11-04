@@ -16,13 +16,11 @@ import java.util.Set;
 public final class VoucherPlugin extends JavaPlugin {
 
     private static VoucherPlugin instance;
-    private NamespacedKey voucherIdKey;
 
     @Override
     public void onEnable() {
         instance = this;
-        voucherIdKey = new NamespacedKey(instance, "voucher_id");
-
+        
         Bukkit.getPluginManager().registerEvents(new VoucherClickListener(), this);
         getCommand("listvouchers").setExecutor(new ListVouchersCommand());
         getCommand("givevoucher").setExecutor(new GiveVoucherCommand());
@@ -54,9 +52,5 @@ public final class VoucherPlugin extends JavaPlugin {
 
     public static VoucherPlugin getInstance() {
         return instance;
-    }
-    
-    public NamespacedKey getVoucherIdKey() {
-        return voucherIdKey;
     }
 }

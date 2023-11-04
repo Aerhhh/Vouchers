@@ -3,6 +3,7 @@ package net.aerh.vouchers.voucher.data;
 import net.aerh.vouchers.VoucherPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VoucherData {
+    
+    public static final NamespacedKey VOUCHER_ID_KEY = new NamespacedKey(VoucherPlugin.getInstance(), "voucher_id");
 
     private final String name, description;
     private final List<String> commands;
@@ -52,7 +55,7 @@ public class VoucherData {
 
             PersistentDataContainer container = itemMeta.getPersistentDataContainer();
 
-            container.set(VoucherPlugin.getInstance().getVoucherIdKey(), PersistentDataType.STRING, name);
+            container.set(VOUCHER_ID_KEY, PersistentDataType.STRING, name);
             itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', itemData.getDisplayName()));
 
             List<String> translatedLore = new ArrayList<>();

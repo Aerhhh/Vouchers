@@ -3,6 +3,7 @@ package net.aerh.vouchers.listener;
 import net.aerh.vouchers.VoucherPlugin;
 import net.aerh.vouchers.voucher.VoucherRedeemState;
 import net.aerh.vouchers.voucher.VoucherManager;
+import net.aerh.vouchers.voucher.data.VoucherData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,11 +26,11 @@ public class VoucherClickListener implements Listener {
         }
 
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
-        if (!container.has(VoucherPlugin.getInstance().getVoucherIdKey(), PersistentDataType.STRING)) {
+        if (!container.has(VoucherData.VOUCHER_ID_KEY, PersistentDataType.STRING)) {
             return;
         }
 
-        String voucherId = container.get(VoucherPlugin.getInstance().getVoucherIdKey(), PersistentDataType.STRING);
+        String voucherId = container.get(VoucherData.VOUCHER_ID_KEY, PersistentDataType.STRING);
         if (voucherId == null) {
             return;
         }
