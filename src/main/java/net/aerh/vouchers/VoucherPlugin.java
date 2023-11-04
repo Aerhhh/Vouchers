@@ -11,17 +11,17 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Set;
 
 public final class VoucherPlugin extends JavaPlugin {
 
     private static VoucherPlugin instance;
-    public static NamespacedKey VOUCHER_ID_KEY;
+    private NamespacedKey voucherIdKey;
 
     @Override
     public void onEnable() {
         instance = this;
-        VOUCHER_ID_KEY = new NamespacedKey(instance, "voucher_id");
+        voucherIdKey = new NamespacedKey(instance, "voucher_id");
 
         Bukkit.getPluginManager().registerEvents(new VoucherClickListener(), this);
         getCommand("listvouchers").setExecutor(new ListVouchersCommand());
@@ -42,16 +42,21 @@ public final class VoucherPlugin extends JavaPlugin {
             return;
         }
 
-        voucherSection.getKeys(false).forEach(key -> {
+        Set<String> vouchers = voucherSection.getKeys(false);
+        vouchers.forEach(key -> {
             ItemData itemData = ItemData.create(voucherSection.getString(key + ".item.display-name"), voucherSection.getStringList(key + ".item.lore"));
-            VoucherData data = VoucherData.create(key, voucherSection.getString(key + ".description"), voucherSection.getString(key + ".command"), itemData);
+            VoucherData data = VoucherData.create(key, voucherSection.getString(key + ".description"), voucherSection.getStringList(key + ".commands"), itemData);
             VoucherManager.get().addVoucher(data);
         });
 
-        getLogger().info("Loaded " + voucherSection.getKeys(false).size() + " voucher" + (voucherSection.getKeys(false).size() == 1 ? "" : "s") + ".");
+        getLogger().info("Loaded " + vouchers.size() + " voucher" + (vouchers.size() == 1 ? "" : "s"));
     }
 
-    public static VoucherPlugin get() {
+    public static VoucherPlugin getInstance() {
         return instance;
+    }
+    
+    public NamespacedKey getVoucherIdKey() {
+        return voucherIdKey;
     }
 }

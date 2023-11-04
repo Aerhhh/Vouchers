@@ -13,7 +13,8 @@ public class VoucherManager {
     private static VoucherManager instance;
     private final List<VoucherData> data = new ArrayList<>();
 
-    public VoucherManager() {
+    private VoucherManager() {
+        throw new UnsupportedOperationException("This class cannot be instantiated!");
     }
 
     public static VoucherManager get() {
@@ -25,7 +26,7 @@ public class VoucherManager {
 
     public void addVoucher(VoucherData data) {
         this.data.add(data);
-        VoucherPlugin.get().getLogger().info("Added voucher " + data.getName());
+        VoucherPlugin.getInstance().getLogger().info("Added voucher " + data.getName());
     }
 
     public VoucherData getVoucher(String name) {
@@ -40,16 +41,19 @@ public class VoucherManager {
     public VoucherRedeemState useVoucher(Player player, String voucherId) {
         VoucherData voucher = getVoucher(voucherId);
         if (voucher == null) {
-            VoucherPlugin.get().getLogger().warning(player.getName() + " tried to redeem voucher " + voucherId + " but it doesn't exist!");
+            VoucherPlugin.getInstance().getLogger().warning(player.getName() + " tried to redeem voucher " + voucherId + " but it doesn't exist!");
             return VoucherRedeemState.VOUCHER_NOT_FOUND;
         }
 
-        if (voucher.getCommand() == null) {
-            VoucherPlugin.get().getLogger().warning(player.getName() + " tried to redeem voucher " + voucherId + " but it has no command!");
-            return VoucherRedeemState.NO_COMMAND;
+        if (voucher.getCommands() == null) {
+            VoucherPlugin.getInstance().getLogger().warning(player.getName() + " tried to redeem voucher " + voucherId + " but it has no commands!");
+            return VoucherRedeemState.NO_COMMANDS;
         }
+        
+        voucher.getCommands().forEach(s -> {
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), s.replace("%player%", player.getName()));
+        });
 
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), voucher.getCommand().replace("%player%", player.getName()));
         return VoucherRedeemState.SUCCESS;
     }
 

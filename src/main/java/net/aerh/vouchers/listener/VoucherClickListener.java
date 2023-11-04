@@ -25,11 +25,11 @@ public class VoucherClickListener implements Listener {
         }
 
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
-        if (!container.has(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING)) {
+        if (!container.has(VoucherPlugin.getInstance().getVoucherIdKey(), PersistentDataType.STRING)) {
             return;
         }
 
-        String voucherId = container.get(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING);
+        String voucherId = container.get(VoucherPlugin.getInstance().getVoucherIdKey(), PersistentDataType.STRING);
         if (voucherId == null) {
             return;
         }
@@ -39,8 +39,8 @@ public class VoucherClickListener implements Listener {
             deleteOneOrMore(itemStack);
         } else {
             player.sendMessage(state.getMessage());
-            VoucherPlugin.get().getLogger().warning("An error occurred trying to redeem voucher " + voucherId + " for player " + player.getName() + ":");
-            VoucherPlugin.get().getLogger().warning(state.getMessage());
+            VoucherPlugin.getInstance().getLogger().warning("An error occurred trying to redeem voucher " + voucherId + " for player " + player.getName() + ":");
+            VoucherPlugin.getInstance().getLogger().warning(state.getMessage());
         }
     }
 

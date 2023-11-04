@@ -2,7 +2,8 @@
 vouchers:
   give-100-money:
     description: "Give 100 money"
-    command: "eco give %player% 100"
+    commands:
+      - "eco give %player% 100"
     item:
       display-name: "&a&l$100 Money"
       lore:
@@ -10,7 +11,8 @@ vouchers:
         - "&7Click to give 100 money"
   give-cool-item:
     description: "Give a really cool item"
-    command: "give %player% stone 1"
+    commands:
+      - "give %player% stone 1"
     item:
       display-name: "&d&lCool Item"
       lore:

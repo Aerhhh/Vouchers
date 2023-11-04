@@ -13,19 +13,20 @@ import java.util.List;
 
 public class VoucherData {
 
-    private final String name, description, command;
+    private final String name, description;
+    private final List<String> commands;
     private final ItemData itemData;
     private ItemStack itemStack;
 
-    public VoucherData(String name, String description, String command, ItemData itemData) {
+    public VoucherData(String name, String description, List<String> commands, ItemData itemData) {
         this.name = name;
         this.description = description;
-        this.command = command;
+        this.commands = commands;
         this.itemData = itemData;
     }
 
-    public static VoucherData create(String name, String description, String command, ItemData itemData) {
-        return new VoucherData(name, description, command, itemData);
+    public static VoucherData create(String name, String description, List<String> commands, ItemData itemData) {
+        return new VoucherData(name, description, commands, itemData);
     }
 
     public String getName() {
@@ -36,8 +37,8 @@ public class VoucherData {
         return description;
     }
 
-    public String getCommand() {
-        return command;
+    public List<String> getCommands() {
+        return commands;
     }
 
     public ItemStack getItemStack(int amount) {
@@ -51,7 +52,7 @@ public class VoucherData {
 
             PersistentDataContainer container = itemMeta.getPersistentDataContainer();
 
-            container.set(VoucherPlugin.VOUCHER_ID_KEY, PersistentDataType.STRING, name);
+            container.set(VoucherPlugin.getInstance().getVoucherIdKey(), PersistentDataType.STRING, name);
             itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', itemData.getDisplayName()));
 
             List<String> translatedLore = new ArrayList<>();

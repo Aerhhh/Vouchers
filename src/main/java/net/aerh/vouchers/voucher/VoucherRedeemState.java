@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 public enum VoucherRedeemState {
     VOUCHER_NOT_FOUND(ChatColor.RED + "This is an invalid voucher! Please contact a staff member."),
-    NO_COMMAND(ChatColor.RED + "This voucher has no data! Please contact a staff member."),
+    NO_COMMANDS(ChatColor.RED + "This voucher has no data! Please contact a staff member."),
     SUCCESS;
 
     private final String message;
